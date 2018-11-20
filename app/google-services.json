@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "910715470674",
+    "firebase_url": "https://eventos-dcda4.firebaseio.com",
+    "project_id": "eventos-dcda4",
+    "storage_bucket": "eventos-dcda4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910715470674:android:5982eb66efaf1317",
+        "android_client_info": {
+          "package_name": "org.example.eventos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910715470674-ustepqak444ed4cu1vjhbvdg7dnq26i2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHC_T_btg9vn2Pyot2GKJcNvNHKH8olMU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
