@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="Suscripciones"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/enviar_evento"
+        android:orderInCategory="100"
+        android:title="Enviar evento"
+        app:showAsAction="never" />
 </menu>

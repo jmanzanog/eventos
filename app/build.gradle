@@ -38,6 +38,7 @@ dependencies {
     implementation 'com.google.api-client:google-api-client-android:1.17.0-rc'
     implementation 'com.google.apis:google-api-services-drive:v3-rev52-1.22.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1';
 
 }
 

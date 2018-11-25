@@ -12,7 +12,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import static org.example.eventos.Comun.eliminarIdRegistro;
 import static org.example.eventos.Comun.guardarIdRegistro;
-import static org.example.eventos.Comun.mostrarDialogo;
 
 public class Temas extends AppCompatActivity {
     CheckBox checkBoxDeportes;
