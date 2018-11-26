@@ -22,4 +22,14 @@
         android:orderInCategory="102"
         android:title="Descargar Fichero"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_detete_file"
+        android:orderInCategory="102"
+        android:title="Eliminar imagen"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_fotografiasDrive"
+        android:orderInCategory="103"
+        android:title="Fotografias Drive"
+        app:showAsAction="never" />
 </menu>

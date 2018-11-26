@@ -40,7 +40,7 @@ public class ActividadPrincipal extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //crearEventos();
+        // crearEventos();
         Query query = FirebaseFirestore.getInstance().collection(EVENTOS).limit(50);
         FirestoreRecyclerOptions<Evento> opciones = new FirestoreRecyclerOptions.Builder<Evento>().setQuery(query, Evento.class).build();
         adaptador = new AdaptadorEventos(opciones);
@@ -68,11 +68,12 @@ public class ActividadPrincipal extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("evento", idEvento);
                 context.startActivity(intent);
+                finish();
             }
         });
 
         Comun.storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://eventos-dcda4.appspot.com");
-        String[] PERMISOS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        String[] PERMISOS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.CAMERA};
         ActivityCompat.requestPermissions(this, PERMISOS, 1);
     }
 

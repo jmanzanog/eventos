@@ -35,6 +35,7 @@ public class Dialogo extends AppCompatActivity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("evento", StringUtils.deleteWhitespace(idEvent));
                         context.startActivity(intent);
+
                     }else{
                         Intent intent = new Intent(context, ActividadPrincipal.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

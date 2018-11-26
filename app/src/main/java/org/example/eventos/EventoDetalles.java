@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -64,6 +65,7 @@ public class EventoDetalles extends AppCompatActivity {
     StorageReference imagenRef;
     private ProgressDialog progresoSubida;
     Boolean subiendoDatos = false;
+    final int SOLICITUD_FOTOGRAFIAS_DRIVE = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,8 +160,53 @@ public class EventoDetalles extends AppCompatActivity {
             case R.id.action_getFile:
                 descargarDeFirebaseStorage(evento);
                 break;
+            case R.id.action_detete_file:
+                deleteDeFirebaseStorage(evento);
+                break;
+            case R.id.action_fotografiasDrive:
+                Intent intent = new Intent(getBaseContext(), FotografiasDrive.class);
+                intent.putExtra("evento", evento);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteDeFirebaseStorage(final String fichero) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Desea eliminar la imagen del evento?")
+                .setPositiveButton("SI, deseo eliminar la imagen ", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        StorageReference referenciaFichero = getStorageReference().child(fichero);
+                        referenciaFichero.delete().addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(Object o) {
+
+                                Map<String, Object> datos = new HashMap<>();
+                                datos.put("imagen", "");
+                                FirebaseFirestore.getInstance().collection("eventos").document(evento).set(datos, SetOptions.merge());
+                                mostrarDialogo(getApplicationContext(), "Imagen eliminada correctamente.");
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        mostrarDialogo(getApplicationContext(), "Ha ocurrido un error al eliminar la imagen.");
+                                    }
+                                });
+
+                    }
+                })
+                .setNegativeButton("NO, cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        return;
+                    }
+                });
+
+        builder.show();
+
+
     }
 
     public void descargarDeFirebaseStorage(String fichero) {
