@@ -107,6 +107,8 @@ public class EventoDetalles extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+         evento = extras.getString("evento");
     }
 
     private Context getAppContext() {
@@ -167,6 +169,11 @@ public class EventoDetalles extends AppCompatActivity {
                 Intent intent = new Intent(getBaseContext(), FotografiasDrive.class);
                 intent.putExtra("evento", evento);
                 startActivity(intent);
+                break;
+            case R.id.action_acercaDe:
+                Intent intentWeb = new Intent(getBaseContext(), EventosWeb.class);
+                intentWeb.putExtra("evento", evento);
+                startActivity(intentWeb);
                 break;
         }
         return super.onOptionsItemSelected(item);
