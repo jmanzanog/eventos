@@ -16,6 +16,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import static org.example.eventos.Comun.colorFondo;
+
 public class EventosWeb extends Activity {
     private String evento;
     WebView navegador;
@@ -54,11 +56,9 @@ public class EventosWeb extends Activity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                //navegador.loadUrl("javascript:muestraEvento('carnaval')");
-                navegador.loadUrl("javascript:muestraEvento('"+ evento+"')");
-                navegador.loadUrl("javascript:hideOption()");
                 dialogo.dismiss();
-
+                navegador.loadUrl("javascript:colorFondo(\"" + colorFondo + "\")");
+                navegador.loadUrl("javascript:muestraEvento(\"" + evento + "\");");
             }
 
             @Override
@@ -100,7 +100,7 @@ public class EventosWeb extends Activity {
         });
     }
 
-    private Context getContext(){
+    private Context getContext() {
         return this.getApplicationContext();
     }
 

@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,15 +42,18 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.example.eventos.Comun.acercaDe;
 import static org.example.eventos.Comun.getStorageReference;
 import static org.example.eventos.Comun.mostrarDialogo;
+
+import com.google.firebase.perf.FirebasePerformance;
+import com.google.firebase.perf.metrics.Trace;
 
 public class EventoDetalles extends AppCompatActivity {
     TextView txtEvento, txtFecha, txtCiudad;
@@ -65,19 +69,32 @@ public class EventoDetalles extends AppCompatActivity {
     StorageReference imagenRef;
     private ProgressDialog progresoSubida;
     Boolean subiendoDatos = false;
-    final int SOLICITUD_FOTOGRAFIAS_DRIVE = 102;
+    Trace mTrace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evento_detalles);
+        mTrace = FirebasePerformance.getInstance().newTrace("trace_EventoDetalles");
+        mTrace.start();
         txtEvento = (TextView) findViewById(R.id.txtEvento);
         txtFecha = (TextView) findViewById(R.id.txtFecha);
         txtCiudad = (TextView) findViewById(R.id.txtCiudad);
         imgImagen = (ImageView) findViewById(R.id.imgImagen);
         Bundle extras = getIntent().getExtras();
         evento = extras.getString("evento");
-        if (evento == null) evento = "";
+        if (evento == null) {
+            android.net.Uri url = getIntent().getData();
+            evento = url.getQueryParameter("evento");
+            String descuento = evento = url.getQueryParameter("descuento");
+            if (null != descuento && descuento != "") {
+                Toast toast = Toast.makeText(this, "descuento 25% felicidades", Toast.LENGTH_LONG);
+                toast.show();
+            }
+
+
+        }
+
         registros = FirebaseFirestore.getInstance().collection("eventos");
         try {
             registros.document(evento).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -108,7 +125,7 @@ public class EventoDetalles extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-         evento = extras.getString("evento");
+        evento = extras.getString("evento");
     }
 
     private Context getAppContext() {
@@ -142,6 +159,9 @@ public class EventoDetalles extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detalles, menu);
+        if (acercaDe != null && !acercaDe) {
+            menu.removeItem(R.id.action_acercaDe);
+        }
         return true;
     }
 
@@ -443,5 +463,17 @@ public class EventoDetalles extends AppCompatActivity {
     private void upload_pausa(UploadTask.TaskSnapshot taskSnapshot) {
         subiendoDatos = false;
         mostrarDialogo(getApplicationContext(), "La subida ha sido pausada.");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTrace.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mTrace.stop();
     }
 }
